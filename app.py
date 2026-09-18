@@ -1,12 +1,13 @@
-```python
+
 import streamlit as st
 import pandas as pd
 import joblib
 
-# Load the complete Polynomial Regression pipeline
+# Load the trained Polynomial Regression pipeline
 model = joblib.load("Fan.pkl")
 
 st.title("Electric Bill Prediction")
+
 
 ac_units = st.number_input(
     "AC Electricity Consumption (Units)",
@@ -15,7 +16,6 @@ ac_units = st.number_input(
     value=10.0
 )
 
-# Fan Units input
 fan_units = st.number_input(
     "Fan Electricity Consumption (Units)",
     min_value=0.0,
@@ -23,7 +23,6 @@ fan_units = st.number_input(
     value=10.0
 )
 
-# Prediction
 if st.button("Predict Electric Bill"):
 
     input_data = pd.DataFrame({
@@ -36,4 +35,3 @@ if st.button("Predict Electric Bill"):
     st.success(
         f"Predicted Electric Bill: ₹{prediction[0]:.2f}"
     )
-```
