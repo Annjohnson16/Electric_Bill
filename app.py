@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 from sklearn.preprocessing import PolynomialFeatures
 
-model = joblib.load("model.pkl")
+model = joblib.load("model(1).pkl")
 
 poly = PolynomialFeatures(degree=2)
 
