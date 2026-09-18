@@ -1,10 +1,10 @@
 import streamlit as st
 import joblib
+from sklearn.preprocessing import PolynomialFeatures
 
-model_data = joblib.load("model.pkl")
+model = joblib.load("model.pkl")
 
-model = model_data["model"]
-poly = model_data["poly"]
+poly = PolynomialFeatures(degree=2)
 
 st.title("Electric Bill Predictor")
 
@@ -15,10 +15,11 @@ ac_units = st.number_input(
 )
 
 if st.button("Predict"):
-    
+
     data = [[ac_units]]
-    data_poly = poly.transform(data)
+
+    data_poly = poly.fit_transform(data)
 
     prediction = model.predict(data_poly)
 
-    st.success(f"Expected Electric Bill: {prediction[0]:.2f}")
+    st.success(f"Expected Electric Bill: ₹{prediction[0]:.2f}")
