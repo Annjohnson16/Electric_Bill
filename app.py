@@ -1,26 +1,39 @@
+```python
 import streamlit as st
+import pandas as pd
 import joblib
-from sklearn.preprocessing import PolynomialFeatures
 
-model = joblib.load("model(1).pkl")
+# Load the complete Polynomial Regression pipeline
+model = joblib.load("Fan.pkl")
 
-poly = PolynomialFeatures(degree=2)
-
-st.title("Electric Bill Predictor")
+st.title("Electric Bill Prediction")
 
 ac_units = st.number_input(
-    "Enter AC Units(Between 1 nad 150)",
-    min_value=1.0,
-    max_value=149.0,
-    step=1.0
+    "AC Electricity Consumption (Units)",
+    min_value=0.0,
+    max_value=150.0,
+    value=10.0
 )
 
-if st.button("Predict"):
+# Fan Units input
+fan_units = st.number_input(
+    "Fan Electricity Consumption (Units)",
+    min_value=0.0,
+    max_value=150.0,
+    value=10.0
+)
 
-    data = [[ac_units]]
+# Prediction
+if st.button("Predict Electric Bill"):
 
-    data_poly = poly.fit_transform(data)
+    input_data = pd.DataFrame({
+        "AC_Units": [ac_units],
+        "Fan_Units": [fan_units]
+    })
 
-    prediction = model.predict(data_poly)
+    prediction = model.predict(input_data)
 
-    st.success(f"Expected Electric Bill: ₹{prediction[0]:.2f}")
+    st.success(
+        f"Predicted Electric Bill: ₹{prediction[0]:.2f}"
+    )
+```
