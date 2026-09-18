@@ -1,25 +1,24 @@
 import streamlit as st
 import joblib
 
-# Load model and polynomial transformer
-model = joblib.load("model.pkl")
-poly = joblib.load("poly.pkl")
+model_data = joblib.load("model.pkl")
+
+model = model_data["model"]
+poly = model_data["poly"]
 
 st.title("Electric Bill Predictor")
 
 ac_units = st.number_input(
     "Enter AC Units",
     min_value=0.0,
-    max_value=200.0,
-    value=50.0
+    step=1.0
 )
 
 if st.button("Predict"):
+    
+    data = [[ac_units]]
+    data_poly = poly.transform(data)
 
-    # Transform input using the same polynomial transformation
-    ac_units_poly = poly.transform([[ac_units]])
+    prediction = model.predict(data_poly)
 
-    # Predict electric bill
-    prediction = model.predict(ac_units_poly)
-
-    st.success(f"Predicted Electric Bill: ₹{prediction[0]:.2f}")
+    st.success(f"Expected Electric Bill: {prediction[0]:.2f}")
